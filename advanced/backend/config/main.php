@@ -15,6 +15,9 @@ return [
         'settings' => [
             'class' => 'backend\modules\settings\Settings',
         ],
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+        ]
     ],
     'components' => [
         'request' => [
@@ -38,6 +41,10 @@ return [
                 ],
             ],
         ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => ['guest']
@@ -45,6 +52,9 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'MyComponent' => [
+            'class' => 'backend\components\MyComponent'
+        ]
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

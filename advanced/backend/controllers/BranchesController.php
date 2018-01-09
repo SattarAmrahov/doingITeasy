@@ -70,14 +70,20 @@ class BranchesController extends Controller
 
             if ($model->load(Yii::$app->request->post()) ) {
                 $model->branch_created_date = date('Y-m-d H:i:s');
-                $model->save();
-                return $this->redirect(['view', 'id' => $model->branch_id]);
+                
+                if ($model->save()) {
+                    echo 1;
+                } else {
+                    echo 0;
+                }
+                // return $this->redirect(['view', 'id' => $model->branch_id]);
+            } else {
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                ]);
             }
 
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-
+            
         } else {
             throw new ForbiddenHttpException("You have no permission to create a Branch", 1);
             
@@ -120,6 +126,33 @@ class BranchesController extends Controller
         return $this->redirect(['index']);
     }
 
+
+    public function actionLists($id)
+    {
+        
+        $countBranches = Branches::find()
+                ->where(['companies_company_id' => $id])
+                ->count();
+
+        $branches = Branches::find()
+                ->where(['companies_company_id' => $id])
+                ->orderBy('branch_id DESC')
+                ->all();
+
+        if($countBranches>0){
+            foreach($branches as $branch){
+                echo "<option value='".$branch->branch_id."'>".$branch->branch_name."</option>";
+            }
+        }
+        else{
+            echo "<option>-</option>";
+        }
+        
+        //echo "<option>-</option>";
+
+    }
+
+
     /**
      * Finds the Branches model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -135,4 +168,6 @@ class BranchesController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
 }

@@ -60,6 +60,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        // $Converted = Yii::$app->MyComponent->currencyConverter('EUR', 'LKR', 10);
+        // print_r($Converted);
+        // die();
         return $this->render('index');
     }
 
@@ -70,6 +73,8 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        $this->layout = 'loginLayout';
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
